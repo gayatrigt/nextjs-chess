@@ -97,8 +97,8 @@ function LabelText({ drawLabels, x, y }) {
 function cellStyles({ isTarget, lightSquareColor, darkSquareColor, x, y, isValid }) {
   return ({
     ...squareStyles,
-    background: getSquareColor({ lightSquareColor, darkSquareColor, x, y }),
-    boxShadow: isTarget ? 'inset 0px 0px 0px 0.4vmin yellow' : (isValid ? 'inset 0px 0px 0px 0.4vmin green' : undefined),
+    background: !isValid ? getSquareColor({ lightSquareColor, darkSquareColor, x, y }) : getSquareColor({ lightSquareColor: "#f1e3997a", darkSquareColor: "#ab9000a3", x, y }),
+    // boxShadow: isTarget ? 'inset 0px 0px 0px 0.4vmin yellow' : (isValid ? 'inset 0px 0px 0px 0.4vmin green' : undefined),
   })
 }
 
@@ -115,7 +115,7 @@ function Tiles({ targetTile, lightSquareColor, darkSquareColor, drawLabels, mark
       });
 
       return <div key={`rect-${x}-${y}`} style={styles as CSSProperties}>
-        <LabelText x={x} y={y} drawLabels={drawLabels} />
+        {/* <LabelText x={x} y={y} drawLabels={drawLabels} /> */}
       </div>
     })}
   </>

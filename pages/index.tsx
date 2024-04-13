@@ -1,10 +1,9 @@
-import Head from 'next/head'
-import React, { useEffect, useReducer, useState } from 'react';
-import Chess, { Dragging, getDefaultLineup } from '../src/react-chess'
+import Head from 'next/head';
+import { useReducer } from 'react';
+import Chess, { getDefaultLineup } from '../src/react-chess';
 // import * as Ably from 'ably'
 // import axios from 'axios';
-import { translatePieces, Board, move, Piece, Pos, makeMove } from '../src/logic';
-import { stat } from 'fs';
+import { Board, Piece, Pos, makeMove, move, translatePieces } from '../src/logic';
 
 interface State {
   pieces: Piece[];
@@ -80,7 +79,7 @@ function updateState(state: State, action: Action): State {
         return state
       }
 
-      const newBoard = makeMove(board, { from: state.atHand, dest: validAction})
+      const newBoard = makeMove(board, { from: state.atHand, dest: validAction })
 
       return {
         pieces: newBoard.pieces,
@@ -100,7 +99,7 @@ function resetState(): State {
   return ({
     pieces: translatePieces(getDefaultLineup()),
     whiteTurn: true,
-    castle: { [2]: {}, [3]: {}},
+    castle: { [2]: {}, [3]: {} },
     atHand: undefined,
     passant: undefined,
     validMoves: []
@@ -113,8 +112,8 @@ function Demo() {
   const [state, dispatch] = useReducer(updateState, undefined, resetState)
 
   return (
-    <div className="demo" style={{ width: 600 }}>
-      <div>juegan {state.whiteTurn ? 'blancas' : 'negras'}</div>
+    <div className="demo" style={{ width: 600, border: "10px solid white", background: "white" }}>
+      <div style={{ color: "black", backgroundColor: "white", textAlign: "center", paddingBottom: "4px" }}> {state.whiteTurn ? 'White Plays' : 'Black Plays'}</div>
 
       <Chess
         pieces={state.pieces.filter(Boolean).map(p => `${p.name}@${fromXY(p)}`)}
@@ -151,16 +150,26 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <title>ajedrez</title>
       </Head>
-      <Demo />
+      <main style={{
+        display: "flex",
+        placeContent: 'center',
+        placeItems: "center",
+        height: "100vh",
+        width: "100vw",
+        margin: 0,
+        background: '#000'
+      }}>
+        <Demo />
+      </main>
       {/* <button onClick={async () => {
         await axios.post('http://localhost:3001/login', { user: 'seba', password: 'sebasjm' }, { withCredentials: true })
 
         const client = new Ably.Realtime({
           authCallback: async (params, cb) => {
-            const { data: channel } = await axios.post('http://localhost:3001/channel', { }, { withCredentials: true })
+            const { data: channel } = await axios.post('http://localhost:3001/channel', {}, { withCredentials: true })
             console.log("refresh token", channel.token)
             cb(null, channel.token)
-          } 
+          }
         });
         handler.client = client
 
@@ -168,7 +177,7 @@ export default function Home() {
 
       <button onClick={async () => {
         const channel = handler.client.channels.get('bin-eye-pal');
-        channel.subscribe(function(message) {
+        channel.subscribe(function (message) {
           console.log("Received: " + message);
         });
       }}>suscribe</button>
