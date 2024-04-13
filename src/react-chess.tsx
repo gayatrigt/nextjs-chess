@@ -52,12 +52,12 @@ interface State {
 type Position = {
   x: number, y: number, pos: string;
 }
-const toPosition = ({ x, y }): Position => ({ x, y, pos: `${String.fromCharCode('a'.codePointAt(0) + x)}${y+1}` })
+const toPosition = ({ x, y }): Position => ({ x, y, pos: `${String.fromCharCode('a'.codePointAt(0) + x)}${y + 1}` })
 
 function coordsToPosition({ tileSize, x, y }) {
   return toPosition({
     x: Math.floor(x / tileSize),
-    y: 7-Math.floor(y / tileSize),
+    y: 7 - Math.floor(y / tileSize),
   })
 }
 
@@ -111,7 +111,7 @@ function Tiles({ targetTile, lightSquareColor, darkSquareColor, drawLabels, mark
       const styles = cellStyles({
         isTarget: targetTile && targetTile.x === x && targetTile.y === y,
         lightSquareColor, darkSquareColor, x, y,
-        isValid: (marks as { x: number, y: number }[] || []).findIndex(v => v.x === x && v.y === 7-y) !== -1
+        isValid: (marks as { x: number, y: number }[] || []).findIndex(v => v.x === x && v.y === 7 - y) !== -1
       });
 
       return <div key={`rect-${x}-${y}`} style={styles as CSSProperties}>
@@ -137,8 +137,8 @@ function Chess({
   allowMoves = true,
   drawLabels = true,
   onClick = noop,
-  lightSquareColor = '#f0d9b5',
-  darkSquareColor = '#b58863',
+  lightSquareColor = '#D8D8D8',
+  darkSquareColor = '#949494',
   size = 600,
   pieces = getDefaultLineup(),
   marks = [],
@@ -157,7 +157,7 @@ function Chess({
     const x = ev.clientX - bbox.left;
     const y = ev.clientY - bbox.top;
 
-    const dragFrom = coordsToPosition({ tileSize: size/8, x, y })
+    const dragFrom = coordsToPosition({ tileSize: size / 8, x, y })
 
     return onClick(dragFrom)
 
